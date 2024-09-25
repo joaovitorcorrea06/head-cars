@@ -55,6 +55,12 @@ const Veiculos = () => {
     );
   };
 
+  // Função para aplicar os filtros (por enquanto apenas exibe o estado no console)
+  const applyFilters = () => {
+    console.log('Filtros aplicados:', { selectedBrands, selectedYears });
+    // Aqui você pode implementar a lógica de filtragem real dos carros
+  };
+
   // Estados para a paginação
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 4; // Quantidade de carros por página
@@ -67,57 +73,85 @@ const Veiculos = () => {
   // Calcular os carros exibidos na página atual
   const offset = currentPage * itemsPerPage;
   const currentCars = cars.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(cars.length / itemsPerPage);
+  // const pageCount = Math.ceil(cars.length / itemsPerPage);
+  const pageCount = 100;
 
   return (
     <div className="container mx-auto py-6 flex w-[65%]">
       {/* Coluna de Filtros */}
-      <div className="w-1/4 pr-4">
+      <div className="w-1/4 pr-6">
+        {/* Título de Filtros */}
+        <h2 className="text-xl font-bold text-gray-800 mb-6 border-b-4 border-blue-500 pb-2">
+          FILTROS
+        </h2>
+
         {/* Filtro por Marca */}
-        <div className="mb-6 p-4 bg-white shadow-lg rounded-lg max-h-40 overflow-auto">
-          <h3 className="text-lg font-semibold mb-3">Filtro por Marca</h3>
-          <ul className="space-y-2">
-            {brands.map((brand) => (
-              <li key={brand} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={brand}
-                  checked={selectedBrands.includes(brand)}
-                  onChange={() => handleBrandChange(brand)}
-                  className="mr-2"
-                />
-                <label htmlFor={brand} className="text-gray-700">
-                  {brand}
-                </label>
-              </li>
-            ))}
-          </ul>
+        <div className="mb-6 p-4 bg-white shadow-lg rounded-lg">
+          <h3 className="text-lg font-semibold mb-3">Marca</h3>
+          <div className="max-h-36 overflow-auto">
+            <ul className="space-y-2">
+              {brands.map((brand) => (
+                <li key={brand} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={brand}
+                    checked={selectedBrands.includes(brand)}
+                    onChange={() => handleBrandChange(brand)}
+                    className="mr-2"
+                  />
+                  <label htmlFor={brand} className="text-gray-700">
+                    {brand}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <button
+            onClick={applyFilters}
+            className="mt-4 w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600"
+          >
+            Filtrar
+          </button>
         </div>
 
         {/* Filtro por Ano */}
-        <div className="mb-6 p-4 bg-white shadow-lg rounded-lg max-h-40 overflow-auto">
-          <h3 className="text-lg font-semibold mb-3">Filtro por Ano</h3>
-          <ul className="space-y-2">
-            {years.map((year) => (
-              <li key={year} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={year}
-                  checked={selectedYears.includes(year)}
-                  onChange={() => handleYearChange(year)}
-                  className="mr-2"
-                />
-                <label htmlFor={year} className="text-gray-700">
-                  {year}
-                </label>
-              </li>
-            ))}
-          </ul>
+        <div className="mb-6 p-4 bg-white shadow-lg rounded-lg">
+          <h3 className="text-lg font-semibold mb-3">Ano</h3>
+          <div className="max-h-36 overflow-auto">
+            <ul className="space-y-2">
+              {years.map((year) => (
+                <li key={year} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={year}
+                    checked={selectedYears.includes(year)}
+                    onChange={() => handleYearChange(year)}
+                    className="mr-2"
+                  />
+                  <label htmlFor={year} className="text-gray-700">
+                    {year}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <button
+            onClick={applyFilters}
+            className="mt-4 w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600"
+          >
+            Filtrar
+          </button>
         </div>
       </div>
 
       {/* Coluna de Carros */}
       <div className="w-3/4">
+        {/* Título de Veículos */}
+        <h2 className="text-xl font-bold text-gray-800 mb-6 border-b-4 border-blue-500 pb-2">
+          VEÍCULOS
+        </h2>
+
+        {/* Lista de Carros */}
         <div className="grid grid-cols-1 gap-6">
           {currentCars.map((car) => (
             <div key={car.id} className="bg-white shadow-lg rounded-lg overflow-hidden flex">
@@ -128,10 +162,18 @@ const Veiculos = () => {
               />
               <div className="p-4 w-2/3">
                 <h2 className="text-2xl font-bold text-gray-800">{car.name}</h2>
-                <p className="text-gray-600 mt-2">Ano: <span className="font-medium">{car.year}</span></p>
-                <p className="text-gray-600">Cor: <span className="font-medium">{car.color}</span></p>
-                <p className="text-blue-500 text-lg font-semibold mt-2">{car.price}</p>
-                <p className="text-sm text-gray-500 mt-4">Vendedor: <span className="font-medium text-gray-700">{car.seller}</span></p>
+                <p className="text-gray-600 mt-2">
+                  Ano: <span className="font-medium">{car.year}</span>
+                </p>
+                <p className="text-gray-600">
+                  Cor: <span className="font-medium">{car.color}</span>
+                </p>
+                <p className="text-blue-500 text-lg font-semibold mt-2">
+                  {car.price}
+                </p>
+                <p className="text-sm text-gray-500 mt-4">
+                  Vendedor: <span className="font-medium text-gray-700">{car.seller}</span>
+                </p>
               </div>
             </div>
           ))}
@@ -140,13 +182,13 @@ const Veiculos = () => {
         {/* Componente de Paginação */}
         <div className="mt-6">
           <ReactPaginate
-            previousLabel={'← Anterior'}
-            nextLabel={'Próximo →'}
+            previousLabel={'← '}
+            nextLabel={' →'}
             pageCount={pageCount}
             onPageChange={handlePageClick}
             containerClassName={'flex justify-center items-center space-x-2'}
             pageClassName={'text-gray-700 bg-white border rounded-lg px-3 py-1'}
-            activeClassName={'bg-blue-500 text-white'}
+            activeClassName={'bg-blue-500 text-blue-500'}
             previousClassName={'text-blue-500 font-semibold'}
             nextClassName={'text-blue-500 font-semibold'}
           />
