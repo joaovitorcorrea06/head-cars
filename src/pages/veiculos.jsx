@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 const Veiculos = () => {
-  // Exemplo de dados de carros
   const cars = [
     {
       id: 1,
@@ -22,7 +22,87 @@ const Veiculos = () => {
       seller: 'Revenda XYZ',
       image: 'https://example.com/car2.jpg',
     },
-    // Adicione mais carros aqui...
+    {
+      id: 3,
+      name: 'Ford Focus',
+      year: '2018',
+      color: 'Branco',
+      price: 'R$ 65.000,00',
+      seller: 'Carros S.A.',
+      image: 'https://example.com/car3.jpg',
+    },
+    {
+      id: 4,
+      name: 'Volkswagen Golf',
+      year: '2021',
+      color: 'Vermelho',
+      price: 'R$ 90.000,00',
+      seller: 'Prime Motors',
+      image: 'https://example.com/car4.jpg',
+    },
+    {
+      id: 5,
+      name: 'Chevrolet Cruze',
+      year: '2020',
+      color: 'Azul',
+      price: 'R$ 82.000,00',
+      seller: 'Revenda GM',
+      image: 'https://example.com/car5.jpg',
+    },
+    {
+      id: 6,
+      name: 'Hyundai HB20',
+      year: '2021',
+      color: 'Prata',
+      price: 'R$ 68.000,00',
+      seller: 'Super Carros',
+      image: 'https://example.com/car6.jpg',
+    },
+    {
+      id: 7,
+      name: 'Jeep Renegade',
+      year: '2022',
+      color: 'Preto',
+      price: 'R$ 110.000,00',
+      seller: 'Jeep Center',
+      image: 'https://example.com/car7.jpg',
+    },
+    {
+      id: 8,
+      name: 'Nissan Kicks',
+      year: '2021',
+      color: 'Branco',
+      price: 'R$ 95.000,00',
+      seller: 'Nissan Autoshop',
+      image: 'https://example.com/car8.jpg',
+    },
+    {
+      id: 9,
+      name: 'Renault Sandero',
+      year: '2019',
+      color: 'Cinza',
+      price: 'R$ 50.000,00',
+      seller: 'Revenda Renault',
+      image: 'https://example.com/car9.jpg',
+    },
+    {
+      id: 10,
+      name: 'Fiat Argo',
+      year: '2020',
+      color: 'Vermelho',
+      price: 'R$ 55.000,00',
+      seller: 'Fiat Showroom',
+      image: 'https://example.com/car10.jpg',
+    },
+    {
+      id: 11,
+      name: 'Chevrolet Onix',
+      year: '2022',
+      color: 'Azul',
+      price: 'R$ 70.000,00',
+      seller: 'Chevrolet Master',
+      image: 'https://example.com/car11.jpg',
+    },
     {
       id: 12,
       name: 'Peugeot 208',
@@ -34,15 +114,31 @@ const Veiculos = () => {
     },
   ];
 
-  // Estado para armazenar os filtros selecionados
+
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedYears, setSelectedYears] = useState([]);
 
-  // Dados das marcas e anos para os filtros
   const brands = ['Toyota', 'Honda', 'Ford', 'Volkswagen', 'Jeep'];
   const years = ['2022', '2021', '2020', '2019', '2018'];
 
-  // Funções para manipular a seleção de filtros
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Atualiza os filtros na URL quando os filtros são alterados
+  const updateURL = () => {
+    const searchParams = new URLSearchParams();
+
+    if (selectedBrands.length) {
+      searchParams.set('brands', selectedBrands.join(','));
+    }
+
+    if (selectedYears.length) {
+      searchParams.set('years', selectedYears.join(','));
+    }
+
+    navigate({ pathname: location.pathname, search: searchParams.toString() });
+  };
+
   const handleBrandChange = (brand) => {
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
@@ -55,35 +151,35 @@ const Veiculos = () => {
     );
   };
 
-  // Função para aplicar os filtros (por enquanto apenas exibe o estado no console)
   const applyFilters = () => {
-    console.log('Filtros aplicados:', { selectedBrands, selectedYears });
-    // Aqui você pode implementar a lógica de filtragem real dos carros
+    updateURL();
+    // Lógica de filtragem real pode ser implementada aqui
   };
 
-  // Estados para a paginação
+  // Sincroniza os filtros da URL com os estados quando a página é carregada
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    const brandsFromUrl = searchParams.get('brands')?.split(',') || [];
+    const yearsFromUrl = searchParams.get('years')?.split(',') || [];
+
+    setSelectedBrands(brandsFromUrl);
+    setSelectedYears(yearsFromUrl);
+  }, [location.search]);
+
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 4; // Quantidade de carros por página
+  const itemsPerPage = 4;
+  const handlePageClick = ({ selected }) => setCurrentPage(selected);
 
-  // Função para lidar com a mudança de página
-  const handlePageClick = ({ selected }) => {
-    setCurrentPage(selected);
-  };
-
-  // Calcular os carros exibidos na página atual
   const offset = currentPage * itemsPerPage;
   const currentCars = cars.slice(offset, offset + itemsPerPage);
-  // const pageCount = Math.ceil(cars.length / itemsPerPage);
-  const pageCount = 100;
+  const pageCount = Math.ceil(cars.length / itemsPerPage);
 
   return (
     <div className="container mx-auto py-6 flex w-[65%]">
-      {/* Coluna de Filtros */}
+      {/* Filtros */}
       <div className="w-1/4 pr-6">
-        {/* Título de Filtros */}
-        <h2 className="text-xl font-bold text-gray-800 mb-6 border-b-4 border-blue-500 pb-2">
-          FILTROS
-        </h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-6 border-b-4 border-blue-500 pb-2">FILTROS</h2>
 
         {/* Filtro por Marca */}
         <div className="mb-6 p-4 bg-white shadow-lg rounded-lg">
@@ -144,14 +240,11 @@ const Veiculos = () => {
         </div>
       </div>
 
-      {/* Coluna de Carros */}
+      {/* Lista de Carros */}
       <div className="w-3/4">
-        {/* Título de Veículos */}
-        <h2 className="text-xl font-bold text-gray-800 mb-6 border-b-4 border-blue-500 pb-2">
-          VEÍCULOS
-        </h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-6 border-b-4 border-blue-500 pb-2">VEÍCULOS</h2>
 
-        {/* Lista de Carros */}
+        {/* Exibição dos Carros */}
         <div className="grid grid-cols-1 gap-6">
           {currentCars.map((car) => (
             <div key={car.id} className="bg-white shadow-lg rounded-lg overflow-hidden flex">
@@ -162,24 +255,16 @@ const Veiculos = () => {
               />
               <div className="p-4 w-2/3">
                 <h2 className="text-2xl font-bold text-gray-800">{car.name}</h2>
-                <p className="text-gray-600 mt-2">
-                  Ano: <span className="font-medium">{car.year}</span>
-                </p>
-                <p className="text-gray-600">
-                  Cor: <span className="font-medium">{car.color}</span>
-                </p>
-                <p className="text-blue-500 text-lg font-semibold mt-2">
-                  {car.price}
-                </p>
-                <p className="text-sm text-gray-500 mt-4">
-                  Vendedor: <span className="font-medium text-gray-700">{car.seller}</span>
-                </p>
+                <p className="text-gray-600 mt-2">Ano: <span className="font-medium">{car.year}</span></p>
+                <p className="text-gray-600">Cor: <span className="font-medium">{car.color}</span></p>
+                <p className="text-blue-500 text-lg font-semibold mt-2">{car.price}</p>
+                <p className="text-sm text-gray-500 mt-4">Vendedor: <span className="font-medium text-gray-700">{car.seller}</span></p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Componente de Paginação */}
+        {/* Paginação */}
         <div className="mt-6">
           <ReactPaginate
             previousLabel={'← '}

@@ -4,6 +4,7 @@ const URL = {
   veiculos: '/veiculos',
   lojas: '/lojas',
   contato: '/contato',
+  carro: '/carro',
 
 };
 

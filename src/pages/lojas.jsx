@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'
+import { URL } from '../config/url'
 
 const Lojas = () => {
   // Exemplo de dados das lojas
@@ -54,6 +56,8 @@ const Lojas = () => {
     // Adicione mais lojas aqui...
   ];
 
+  const navigate = useNavigate()
+
   return (
     <div className="container mx-auto py-6 w-[65%]">
       {/* Título da Seção de Lojas */}
@@ -67,6 +71,7 @@ const Lojas = () => {
           <div
             key={store.id}
             className="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center"
+            onClick={() => navigate(URL.lojas + '/' + store.id)}
           >
             <img
               src={store.logo}
