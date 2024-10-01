@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
-import { URL } from '../config/url'
+import { URL } from '../../config/url'
 
 const Lojas = () => {
   // Exemplo de dados das lojas

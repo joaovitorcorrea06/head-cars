@@ -1,5 +1,5 @@
 import React from 'react'
-import HomeCarList from '../components/home_car_list/HomeCarList'
+import HomeCarList from '../../components/home_car_list'
 
 const Home = () => {
   return (
