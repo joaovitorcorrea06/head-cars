@@ -19,20 +19,20 @@ const sidebarStructure = [
     link: "admin/veiculos"
   },
   {
-    id: "empresa",
-    title: "Empresa",
-    name: "empresa",
+    id: "empresas",
+    title: "Empresas",
+    name: "empresas",
     parent: true,
     icon: <FaRegBuilding size={20} />,
-    link: "empresa"
+    link: "admin/empresas"
   },
   {
-    id: "pessoa",
-    title: "Pessoa",
-    name: "pessoa",
+    id: "pessoas",
+    title: "Pessoas",
+    name: "pessoas",
     parent: true,
     icon: <BsFillPeopleFill size={20} />,
-    link: "pessoa"
+    link: "admin/pessoas"
   },
 ];
 

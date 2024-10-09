@@ -17,6 +17,7 @@ import EmpresasAdmin from '../pages/Privado/empresas_admin';
 // import PessoasAdmin from '../pages/Privado/pessoas_admin';
 import VeiculosAdminForm from '../pages/Privado/veiculos/veiculos_admin_form';
 import PessoaForm from '../pages/Privado/pessoas/pessoa_admin_form';
+import PessoaAdmin from '../pages/Privado/pessoas/pessoa_admin';
 
 
 function Router() {
@@ -38,7 +39,7 @@ function Router() {
       <Route path={URL.admin_veiculos_form} element={<VeiculosAdminForm />} />
       <Route path={URL.admin_veiculos_form + '/:id'} element={<VeiculosAdminForm />} />
       <Route path={URL.admin_empresas} element={<EmpresasAdmin />} />
-      {/* <Route path={URL.admin_pessoas} element={<PessoasAdmin />} /> */}
+      <Route path={URL.admin_pessoas} element={<PessoaAdmin />} />
       <Route path={URL.admin_pessoas_form} element={<PessoaForm />} />
       <Route path={URL.admin_pessoas_form + '/:id'} element={<PessoaForm />} />
 
