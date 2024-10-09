@@ -11,7 +11,7 @@ function Main(props) {
 
   const [sideMenuIsExpand, setSideMenuIsExpand] = useState(true);
 
-  const tipo_rota = 'privada'
+  const tipo_rota = ''
 
   if (tipo_rota === 'privada') {
     return (
